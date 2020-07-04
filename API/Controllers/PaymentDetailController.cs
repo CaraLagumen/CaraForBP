@@ -79,6 +79,11 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<PaymentDetail>> PostPaymentDetail(PaymentDetail paymentDetail)
         {
+            if (!ValidateLuhn(paymentDetail.CardNumber))
+            {
+                throw new ArgumentException($"Card number is invalid.");
+            }
+
             _context.PaymentDetails.Add(paymentDetail);
             await _context.SaveChangesAsync();
 
@@ -106,6 +111,16 @@ namespace API.Controllers
             return _context.PaymentDetails.Any(e => e.PMId == id);
         }
 
+        //Luhn check from: https://stackoverflow.com/a/40491537/12765256
+        private static bool ValidateLuhn(string digits)
+        {
+            return digits.All(char.IsDigit) && digits.Reverse()
+                .Select(c => c - 48)
+                .Select((thisNum, i) => i % 2 == 0
+                    ? thisNum
+                    : ((thisNum *= 2) > 9 ? thisNum - 9 : thisNum)
+                ).Sum() % 10 == 0;
+        }
 
     }
 }
