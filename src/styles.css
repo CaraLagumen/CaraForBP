@@ -1,0 +1,31 @@
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+
+  transition: all 0.2s cubic-bezier(0.7, 0.02, 0.08, 1.52);
+}
+
+html {
+  height: 100vh;
+  width: inherit;
+  box-sizing: border-box;
+
+  font-size: 62.5%;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+}
+
+input.ng-invalid.ng-touched {
+  border: 0.1rem solid red;
+}
+
+button[disabled="disabled"] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}

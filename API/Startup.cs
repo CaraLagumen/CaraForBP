@@ -31,6 +31,16 @@ namespace API
 
             services.AddDbContext<PaymentDetailContext>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("DevConnection")));
+
+            services.AddCors(options =>
+            {
+                options.AddPolicy("*",
+                builder =>
+                {
+                    builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
+                });
+            });
+            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -42,6 +52,8 @@ namespace API
             }
 
             app.UseRouting();
+            
+            app.UseCors("*");
 
             app.UseAuthorization();
 

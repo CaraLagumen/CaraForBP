@@ -111,7 +111,9 @@ namespace API.Controllers
             return _context.PaymentDetails.Any(e => e.PMId == id);
         }
 
-        //Luhn check from: https://stackoverflow.com/a/40491537/12765256
+        //VALIDATORS
+
+        //Card number Luhn check; algo from: https://stackoverflow.com/a/40491537/12765256
         private static bool ValidateLuhn(string digits)
         {
             return digits.All(char.IsDigit) && digits.Reverse()

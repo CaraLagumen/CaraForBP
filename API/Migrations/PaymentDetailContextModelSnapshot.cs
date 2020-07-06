@@ -27,7 +27,7 @@ namespace API.Migrations
 
                     b.Property<string>("CVV")
                         .IsRequired()
-                        .HasColumnType("varchar(3)");
+                        .HasColumnType("varchar(4)");
 
                     b.Property<string>("CardNumber")
                         .IsRequired()
@@ -43,7 +43,7 @@ namespace API.Migrations
 
                     b.Property<string>("CardOwnerZip")
                         .IsRequired()
-                        .HasColumnType("varchar(9)");
+                        .HasColumnType("varchar(10)");
 
                     b.Property<string>("ExpirationDate")
                         .IsRequired()

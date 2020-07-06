@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.0/angular-route.js"></script>
+
+    <meta charset="utf-8">
+    <title>CaraForBP | #C & AngularJS in 1 week</title>
+    <base href="/">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1"
+    >
+    <link
+        rel="icon"
+        type="image/x-icon"
+        href="favicon.ico"
+    >
+    <link
+        href="styles.css"
+        rel="stylesheet"
+        type="text/css"
+    >
+</head>
+
+<body ng-app="CaraForBP">
+
+    <!--ROUTER OUTLET-->
+    <div ng-view></div>
+
+    <!--MODULES-->
+    <script src="app/app.js"></script>
+
+    <!-- CONTROLLERS -->
+    <script src="app/controllers/HomeCtrl.js"></script>
+    <script src="app/controllers/UserCtrl.js"></script>
+    <script src="app/controllers/IntegratorCtrl.js"></script>
+
+    <!-- SERVICES -->
+    <script src="app/services/UserService.js"></script>
+    <script src="app/services/IntegratorService.js"></script>
+
+    <!-- DIRECTIVES -->
+    <script src="app/directives/UserDirective.js"></script>
+
+</body>
+
+</html>

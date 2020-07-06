@@ -20,20 +20,20 @@ namespace API.Models
 
         [Required]
         [Column(TypeName = "nvarchar(100)")]
-        [RegularExpression(@"[a-zA-Z0-9 ']{1,100}",
-         ErrorMessage = "Only upper/lower alpha characters or numbers are allowed.")]
+        [RegularExpression(@"\d{1,10}\s([\s\.a-zA-Z]){1,100}",
+         ErrorMessage = "Must start with a building number. Only upper/lower alpha characters or numbers are allowed.")]
         public string CardOwnerStreet { get; set; }
 
         [Required]
-        [Column(TypeName = "varchar(9)")]
-        [RegularExpression(@"([0-9]{5}(-[0-9]{4})?)",
-         ErrorMessage = "Only numbers are allowed.")]
+        [Column(TypeName = "varchar(10)")]
+        [RegularExpression(@"([0-9]{5}([-0-9]{5})?)",
+         ErrorMessage = "Please enter a valid zip code.")]
         public string CardOwnerZip { get; set; }
 
         [Required]
         [Column(TypeName = "varchar(16)")]
         [RegularExpression(@"[0-9]{13,16}",
-         ErrorMessage = "Only numbers are allowed.")]
+         ErrorMessage = "Please enter a valid card number.")]
         public string CardNumber { get; set; }
 
         [Required]
@@ -43,9 +43,9 @@ namespace API.Models
         public string ExpirationDate { get; set; }
 
         [Required]
-        [Column(TypeName = "varchar(3)")]
-        [RegularExpression(@"[0-9]{3}",
-         ErrorMessage = "Only numbers are allowed.")]
+        [Column(TypeName = "varchar(4)")]
+        [RegularExpression(@"[0-9]{3,4}",
+         ErrorMessage = "Please enter a valid CVVV.")]
         public string CVV { get; set; }
 
         [Required]
