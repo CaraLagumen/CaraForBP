@@ -26,8 +26,10 @@
 
 <body ng-app="CaraForBP">
 
+    <div ng-include="'app/views/header.html'"></div>
+
     <!--ROUTER OUTLET-->
-    <div ng-view></div>
+    <div ng-view id="router-outlet"></div>
 
     <!--MODULES-->
     <script src="app/app.js"></script>

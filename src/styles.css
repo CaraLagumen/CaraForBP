@@ -13,12 +13,48 @@ html {
   width: inherit;
   box-sizing: border-box;
 
+  color: #4d4d4d;
+  font-family: sans-serif;
   font-size: 62.5%;
+  font-weight: 400;
 }
 
 body {
+  display: grid;
+  grid-template-rows: 1fr 6.5fr 2rem;
+  align-content: center;
+
   margin: 0;
   padding: 0;
+}
+
+#router-outlet {
+  height: 100%;
+}
+
+/* TYPOGRAPHY----------------------------------------------- */
+
+h1,
+h2,
+h3,
+h4 {
+  color: #3e355f;
+  font-weight: 700;
+}
+
+h2 {
+  font-size: 2.5rem;
+}
+
+input {
+  width: 100%;
+
+  border-radius: 0.3rem;
+  border: 0.1rem solid #dcdcdc;
+  margin-top: 0.3rem;
+  padding: 1.5rem;
+
+  font-size: 1.6rem;
 }
 
 input.ng-invalid.ng-touched {
@@ -28,4 +64,247 @@ input.ng-invalid.ng-touched {
 button[disabled="disabled"] {
   opacity: 0.4;
   cursor: not-allowed;
+}
+
+a,
+a:link,
+a:visited {
+  text-decoration: none;
+}
+
+.link,
+.link:link,
+.link:visited,
+button,
+button:link,
+button:visited {
+  border: none;
+  border-radius: 3rem;
+  margin: 1.2rem;
+  padding: 1.2rem 4rem;
+
+  background: #ff6f00;
+  color: #ffffff;
+  font-size: 2rem;
+  white-space: nowrap;
+
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+/* HEADER----------------------------------------------- */
+#header {
+  display: grid;
+  grid-template-columns: auto auto;
+  align-items: center;
+  justify-content: space-between;
+
+  margin-bottom: 2rem;
+  padding: 2rem 5rem;
+
+  font-size: 2rem;
+}
+
+#header h1 {
+  letter-spacing: -0.4rem !important;
+}
+
+#title1 {
+  color: #676767;
+}
+
+#title2 {
+  color: #2e71b2;
+}
+
+.nav a {
+  padding: 1rem 3rem;
+  border-radius: 0.5rem;
+
+  background-color: #2e71b2;
+  color: white;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  text-align: center;
+}
+
+/* HOME----------------------------------------------- */
+
+#home {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+  justify-items: center;
+
+  height: 100%;
+
+  font-size: 1.4rem;
+}
+
+#home p {
+  padding: 1rem 2rem;
+
+  font-size: 3rem;
+}
+
+#home span {
+  color: #3e355f;
+  font-weight: 600;
+}
+
+#options {
+  display: grid;
+
+  text-align: center;
+}
+
+/* USER----------------------------------------------- */
+
+#user {
+  display: grid;
+  align-content: center;
+  justify-content: center;
+
+  height: 100%;
+}
+
+#user h2 {
+  margin-bottom: 2rem;
+}
+
+.response {
+  padding: 1rem 2rem;
+
+  font-size: 2rem;
+}
+
+#payment-detail-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: repeat(auto, 9rem);
+  column-gap: 1rem;
+  row-gap: 3rem;
+
+  max-width: 80vw;
+  padding: 2rem;
+
+  color: #707070;
+}
+
+#payment-detail-form span {
+  font-size: 1.4rem;
+  white-space: nowrap;
+}
+
+.field-item {
+  display: inline-block;
+  width: 45%;
+}
+
+.field-divider {
+  padding: 1vw;
+
+  font-size: 1.6rem !important;
+}
+
+.field-invalid {
+  position: absolute;
+  width: 30vw;
+
+  color: red;
+  font-size: 1.2rem;
+}
+
+.field-item .field-invalid {
+  width: 15vw !important;
+}
+
+#field-transaction {
+  display: flex;
+  align-items: center;
+}
+
+#dollar-sign {
+  float: left;
+  padding: 1vw;
+
+  font-size: 1.6rem !important;
+}
+
+#dollar-input {
+  width: 90%;
+}
+
+#payment-detail-form button {
+  transform: translateY(1rem);
+}
+
+#cancel-payment {
+  background-color: red;
+}
+
+#new-payment {
+  background-color: #2e71b2;
+}
+
+/* MEDIA QUERIES----------------------------------------------- */
+
+@media only screen and (max-height: 45em) {
+  html {
+    font-size: 52%;
+  }
+}
+
+@media only screen and (max-height: 24em) {
+  html {
+    font-size: 42%;
+  }
+}
+
+@media only screen and (min-height: 45em) {
+  html {
+    font-size: 52%;
+  }
+}
+
+@media only screen and (min-height: 56em) {
+  html {
+    font-size: 62.5%;
+  }
+}
+
+@media only screen and (min-height: 67em) {
+  html {
+    font-size: 80%;
+  }
+}
+
+@media only screen and (min-height: 90em) {
+  html {
+    font-size: 120%;
+  }
+}
+
+@media only screen and (min-height: 135em) {
+  html {
+    font-size: 150%;
+  }
+}
+
+@media only screen and (max-width: 86em) {
+  html {
+    font-size: 60%;
+  }
+}
+
+@media only screen and (max-width: 40em) {
+  html {
+    font-size: 50%;
+  }
+}
+
+@media only screen and (max-width: 34em) {
+  html {
+    font-size: 40%;
+  }
 }

@@ -4,15 +4,8 @@ app.factory("UserService", [
   function ($http, apiUrl) {
     let output = {};
 
-    output.PaymentProcess = function (payment) {
-      $http.post(apiUrl + "PaymentDetail", payment).then(
-        function success(res) {
-          console.log(res);
-        },
-        function error(res) {
-          console.log(res);
-        }
-      );
+    output.paymentProcess = function (payment) {
+      return $http.post(apiUrl + "PaymentDetail", payment);
     };
 
     return output;

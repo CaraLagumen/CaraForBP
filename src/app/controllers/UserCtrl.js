@@ -3,8 +3,24 @@ app.controller("UserCtrl", [
   "UserService",
   function ($scope, UserService) {
     $scope.isValidDate = false;
+    $scope.processed = false;
+    $scope.processing = false;
+    $scope.response = "Successful";
+    $scope.requestedTransactionAmount = "$1234";
+    $scope.processedTransactionAmount = "$1234";
 
-    $scope.DateValidator = function () {
+    //TEST
+    // $scope.cardOwnerName = "Cara Lagumen";
+    // $scope.cardOwnerStreet = "1234 Street Address";
+    // $scope.cardOwnerZip1 = "12345";
+    // $scope.cardOwnerZip2 = "6789";
+    // $scope.cardNumber = "4111111111111111";
+    // $scope.expirationDateMonth = "12";
+    // $scope.expirationDateYear = "34";
+    // $scope.cvv = "1234";
+    // $scope.transactionAmount = "1234.56";
+
+    $scope.dateValidator = function () {
       if ($scope.expirationDateMonth && $scope.expirationDateYear) {
         const now = new Date(Date.now()).setDate(1);
         const month = parseInt($scope.expirationDateMonth) - 1;
@@ -24,7 +40,27 @@ app.controller("UserCtrl", [
       }
     };
 
-    $scope.PaymentSubmit = function () {
+    let processTimer;
+
+    $scope.paymentProcess = function () {
+      $scope.processing = true;
+
+      processTimer = setTimeout(function () {
+        $scope.paymentSubmit();
+      }, 5000);
+    };
+
+    $scope.paymentCancel = function () {
+      $scope.processed = true;
+      $scope.processing = false;
+      $scope.response = "Canceled";
+      $scope.requestedTransactionAmount = "$" + $scope.transactionAmount;
+      $scope.processedTransactionAmount = "$0.00";
+
+      clearTimeout(processTimer);
+    };
+
+    $scope.paymentSubmit = function () {
       let cardOwnerZip = $scope.cardOwnerZip1;
       if ($scope.cardOwnerZip2)
         cardOwnerZip = $scope.cardOwnerZip1 + "-" + $scope.cardOwnerZip2;
@@ -44,7 +80,40 @@ app.controller("UserCtrl", [
         TransactionAmount: transactionAmount,
       };
 
-      UserService.PaymentProcess(payment);
+      UserService.paymentProcess(payment).then(
+        function success(res) {
+          $scope.processed = true;
+          $scope.processing = false;
+          $scope.response = "Successful";
+          $scope.requestedTransactionAmount = "$" + transactionAmount;
+          $scope.processedTransactionAmount = "$" + transactionAmount;
+
+          console.log(res);
+        },
+        function error(res) {
+          $scope.processed = true;
+          $scope.processing = false;
+          $scope.response = "Declined";
+          $scope.requestedTransactionAmount = "$" + transactionAmount;
+          $scope.processedTransactionAmount = "$0.00";
+
+          console.log(res);
+        }
+      );
+    };
+
+    $scope.clearForm = function () {
+      $scope.cardOwnerName = "";
+      $scope.cardOwnerStreet = "";
+      $scope.cardOwnerZip1 = "";
+      $scope.cardOwnerZip2 = "";
+      $scope.cardNumber = "";
+      $scope.expirationDateMonth = "";
+      $scope.expirationDateYear = "";
+      $scope.cvv = "";
+      $scope.transactionAmount = "";
+      $scope.processed = false;
+      $scope.processing = false;
     };
   },
 ]);

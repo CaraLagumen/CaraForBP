@@ -1,163 +1,244 @@
-<div class="user">
+<div id="user">
 
-    <h1>User</h1>
+    <h2 ng-if="!processing && !processed">Enter new credit / debit card payment.</h2>
+
+    <h2 ng-if="processing && !processed">Processing credit / debit card payment.</h2>
+
+    <div ng-if="!processing && processed">
+        <h2>{{ response }} credit / debit card transaction.</h2>
+        <span class="response">Amount requested: {{ requestedTransactionAmount }}</span>
+        <span class="response">Amount processed: {{ processedTransactionAmount }}</span>
+    </div>
 
     <form
-        ng-submit="PaymentSubmit()"
+        ng-submit="paymentProcess()"
         name="paymentDetailForm"
+        id="payment-detail-form"
     >
 
-        <input
-            ng-model="cardOwnerName"
-            ng-required="true"
-            ng-maxlength="50"
-            name-validator
-            name="cardOwnerName"
-            type="text"
-            placeholder="Name on card"
-        >
-        <div ng-show="paymentDetailForm.cardOwnerName.$touched">
-            <small ng-show="paymentDetailForm.cardOwnerName.$error.required">Please enter at least 1 letter.</small>
-            <small ng-show="paymentDetailForm.cardOwnerName.$error.maxlength">Max length is 50.</small>
-            <small ng-if="paymentDetailForm.cardOwnerName.$error.nameValidator">
-                Only upper/lower alpha characters, spaces, hyphens, or apostrophes are allowed.
-            </small>
+        <div class="field">
+            <span>Card owner name</span>
+            <input
+                ng-model="cardOwnerName"
+                ng-required="true"
+                ng-maxlength="50"
+                name-validator
+                name="cardOwnerName"
+                type="text"
+                placeholder="Name on card"
+            >
+            <div
+                ng-show="paymentDetailForm.cardOwnerName.$dirty"
+                class="field-invalid"
+            >
+                <small ng-show="paymentDetailForm.cardOwnerName.$error.required">Please enter at least 1 letter.</small>
+                <small ng-show="paymentDetailForm.cardOwnerName.$error.maxlength">Max length is 50.</small>
+                <small ng-if="paymentDetailForm.cardOwnerName.$error.nameValidator">
+                    Only upper/lower alpha characters, spaces, hyphens, or apostrophes are allowed.
+                </small>
+            </div>
         </div>
 
-        <input
-            ng-model="cardOwnerStreet"
-            ng-required="true"
-            ng-maxlength="100"
-            street-validator
-            street-name-validator
-            name="cardOwnerStreet"
-            type="text"
-            placeholder="Street address"
-        >
-        <div ng-show="paymentDetailForm.cardOwnerStreet.$touched">
-            <small ng-show="paymentDetailForm.cardOwnerStreet.$error.streetValidator">Please enter a building number
-                followed by the street name.</small>
-            <small ng-show="paymentDetailForm.cardOwnerStreet.$error.maxlength">Max length is 100.</small>
-            <small ng-if="paymentDetailForm.cardOwnerStreet.$error.streetNameValidator">
-                Only upper/lower alpha characters or numbers are allowed.
-            </small>
+        <div class="field">
+            <span>Card owner street address</span>
+            <input
+                ng-model="cardOwnerStreet"
+                ng-required="true"
+                ng-maxlength="100"
+                street-validator
+                street-name-validator
+                name="cardOwnerStreet"
+                type="text"
+                placeholder="Street address"
+            >
+            <div
+                ng-show="paymentDetailForm.cardOwnerStreet.$dirty"
+                class="field-invalid"
+            >
+                <small ng-show="paymentDetailForm.cardOwnerStreet.$error.streetValidator">Please enter a building number
+                    followed by the street name.</small>
+                <small ng-show="paymentDetailForm.cardOwnerStreet.$error.maxlength">Max length is 100.</small>
+                <small ng-if="paymentDetailForm.cardOwnerStreet.$error.streetNameValidator">
+                    Only upper/lower alpha characters or numbers are allowed.
+                </small>
+            </div>
         </div>
 
-        <input
-            ng-model="cardOwnerZip1"
-            ng-required="true"
-            ng-minlength="5"
-            ng-maxlength="5"
-            only-digits
-            name="cardOwnerZip1"
-            type="text"
-            placeholder="Zip code"
-        >
-        <div ng-show="paymentDetailForm.cardOwnerZip1.$touched">
-            <small ng-show="paymentDetailForm.cardOwnerZip1.$error.minlength">Min length is 5.</small>
-            <small ng-show="paymentDetailForm.cardOwnerZip1.$error.maxlength">Max length is 5.</small>
-        </div>
-        -
-        <input
-            ng-model="cardOwnerZip2"
-            ng-minlength="4"
-            ng-maxlength="4"
-            only-digits
-            name="cardOwnerZip2"
-            type="text"
-            placeholder="Zip code extension"
-        >
-        <div ng-show="paymentDetailForm.cardOwnerZip2.$touched">
-            <small ng-show="paymentDetailForm.cardOwnerZip2.$error.minlength">Min length is 4.</small>
-            <small ng-show="paymentDetailForm.cardOwnerZip2.$error.maxlength">Max length is 4.</small>
-        </div>
-
-        <input
-            ng-model="cardNumber"
-            ng-required="true"
-            ng-minlength="13"
-            ng-maxlength="16"
-            only-digits
-            luhn-validator
-            name="cardNumber"
-            type="text"
-            placeholder="13 to 16 digit card number"
-        >
-        <div ng-show="paymentDetailForm.cardNumber.$touched">
-            <small ng-show="paymentDetailForm.cardNumber.$error.minlength">Min length is 13.</small>
-            <small ng-show="paymentDetailForm.cardNumber.$error.maxlength">Max length is 16.</small>
-            <small ng-if="paymentDetailForm.cardNumber.$error.luhnValidator">
-                Please enter a valid card number.
-            </small>
+        <div class="field">
+            <div class="field-item">
+                <span>Card owner zip code</span>
+                <input
+                    ng-model="cardOwnerZip1"
+                    ng-required="true"
+                    ng-minlength="5"
+                    ng-maxlength="5"
+                    only-digits
+                    name="cardOwnerZip1"
+                    type="text"
+                    placeholder="Zip code"
+                >
+                <div
+                    ng-show="paymentDetailForm.cardOwnerZip1.$dirty"
+                    class="field-invalid"
+                >
+                    <small ng-show="paymentDetailForm.cardOwnerZip1.$error.minlength">Min length is 5.</small>
+                    <small ng-show="paymentDetailForm.cardOwnerZip1.$error.maxlength">Max length is 5.</small>
+                </div>
+            </div>
+            <span class="field-divider">-</span>
+            <div class="field-item">
+                <input
+                    ng-model="cardOwnerZip2"
+                    ng-minlength="4"
+                    ng-maxlength="4"
+                    only-digits
+                    name="cardOwnerZip2"
+                    type="text"
+                    placeholder="Zip code extension"
+                >
+                <div
+                    ng-show="paymentDetailForm.cardOwnerZip2.$dirty"
+                    class="field-invalid"
+                >
+                    <small ng-show="paymentDetailForm.cardOwnerZip2.$error.minlength">Min length is 4.</small>
+                    <small ng-show="paymentDetailForm.cardOwnerZip2.$error.maxlength">Max length is 4.</small>
+                </div>
+            </div>
         </div>
 
-        <input
-            ng-model="expirationDateMonth"
-            ng-required="true"
-            ng-minlength="2"
-            ng-maxlength="2"
-            only-digits
-            name="expirationDateMonth"
-            type="text"
-            placeholder="MM"
-        >
-        <div ng-show="paymentDetailForm.expirationDateMonth.$touched">
-            <small ng-show="paymentDetailForm.expirationDateMonth.$error.minlength">Min length is 2.</small>
-            <small ng-show="paymentDetailForm.expirationDateMonth.$error.maxlength">Max length is 2.</small>
-        </div>
-        /
-        <input
-            ng-model="expirationDateYear"
-            ng-required="true"
-            ng-minlength="2"
-            ng-maxlength="2"
-            ng-change="DateValidator()"
-            only-digits
-            name="expirationDateYear"
-            type="text"
-            placeholder="YY"
-        >
-        <div ng-show="paymentDetailForm.expirationDateYear.$touched">
-            <small ng-show="paymentDetailForm.expirationDateYear.$error.minlength">Min length is 2.</small>
-            <small ng-show="paymentDetailForm.expirationDateYear.$error.maxlength">Max length is 2.</small>
-            <small ng-if="!isValidDate">Please enter a valid date.</small>
+        <div class="field">
+            <span>Card number</span>
+            <input
+                ng-model="cardNumber"
+                ng-required="true"
+                ng-minlength="13"
+                ng-maxlength="16"
+                only-digits
+                luhn-validator
+                name="cardNumber"
+                type="text"
+                placeholder="13 to 16 digit card number"
+            >
+            <div
+                ng-show="paymentDetailForm.cardNumber.$dirty"
+                class="field-invalid"
+            >
+                <small ng-show="paymentDetailForm.cardNumber.$error.minlength">Min length is 13.</small>
+                <small ng-show="paymentDetailForm.cardNumber.$error.maxlength">Max length is 16.</small>
+                <small ng-if="paymentDetailForm.cardNumber.$error.luhnValidator">
+                    Please enter a valid card number.
+                </small>
+            </div>
         </div>
 
-        <input
-            ng-model="cvv"
-            ng-required="true"
-            ng-minlength="3"
-            ng-maxlength="4"
-            only-digits
-            name="cvv"
-            type="password"
-            placeholder="CVV"
-        >
-        <div ng-show="paymentDetailForm.cvv.$touched">
-            <small ng-show="paymentDetailForm.cvv.$error.minlength">Min length is 3.</small>
-            <small ng-show="paymentDetailForm.cvv.$error.maxlength">Max length is 4.</small>
+        <div class="field">
+            <div class="field-item">
+                <span>Expiration date</span>
+                <input
+                    ng-model="expirationDateMonth"
+                    ng-required="true"
+                    ng-minlength="2"
+                    ng-maxlength="2"
+                    only-digits
+                    name="expirationDateMonth"
+                    type="text"
+                    placeholder="MM"
+                >
+                <div
+                    ng-show="paymentDetailForm.expirationDateMonth.$dirty"
+                    class="field-invalid"
+                >
+                    <small ng-show="paymentDetailForm.expirationDateMonth.$error.minlength">Min length is 2.</small>
+                    <small ng-show="paymentDetailForm.expirationDateMonth.$error.maxlength">Max length is 2.</small>
+                </div>
+            </div>
+            <span class="field-divider">/</span>
+            <div class="field-item">
+                <input
+                    ng-model="expirationDateYear"
+                    ng-required="true"
+                    ng-minlength="2"
+                    ng-maxlength="2"
+                    ng-change="dateValidator()"
+                    only-digits
+                    name="expirationDateYear"
+                    type="text"
+                    placeholder="YY"
+                >
+                <div
+                    ng-show="paymentDetailForm.expirationDateYear.$dirty"
+                    class="field-invalid"
+                >
+                    <small ng-show="paymentDetailForm.expirationDateYear.$error.minlength">Min length is 2.</small>
+                    <small ng-show="paymentDetailForm.expirationDateYear.$error.maxlength">Max length is 2.</small>
+                    <small ng-if="!isValidDate">Please enter a valid date.</small>
+                </div>
+            </div>
         </div>
 
-        $
-        <input
-            ng-model="transactionAmount"
-            ng-required="true"
-            ng-minlength="1"
-            ng-maxlength="50"
-            only-digits
-            name="transactionAmount"
-            type="text"
-            placeholder="Transaction amount"
-        >
-        <div ng-show="paymentDetailForm.transactionAmount.$touched">
-            <small ng-show="paymentDetailForm.transactionAmount.$error.minlength">Min length is 1.</small>
-            <small ng-show="paymentDetailForm.transactionAmount.$error.maxlength">Max length is 50.</small>
+        <div class="field">
+            <span>CVV</span>
+            <input
+                ng-model="cvv"
+                ng-required="true"
+                ng-minlength="3"
+                ng-maxlength="4"
+                only-digits
+                name="cvv"
+                type="password"
+                placeholder="CVV"
+            >
+            <div
+                ng-show="paymentDetailForm.cvv.$dirty"
+                class="field-invalid"
+            >
+                <small ng-show="paymentDetailForm.cvv.$error.minlength">Min length is 3.</small>
+                <small ng-show="paymentDetailForm.cvv.$error.maxlength">Max length is 4.</small>
+            </div>
+        </div>
+
+        <div class="field">
+            <span>Transaction amount</span>
+            <div id="field-transaction">
+                <span id="dollar-sign">$</span>
+                <input
+                    ng-model="transactionAmount"
+                    ng-required="true"
+                    ng-minlength="1"
+                    ng-maxlength="50"
+                    only-digits
+                    id="dollar-input"
+                    name="transactionAmount"
+                    type="text"
+                    placeholder="Transaction amount"
+                >
+            </div>
+            <div
+                ng-show="paymentDetailForm.transactionAmount.$dirty"
+                class="field-invalid"
+            >
+                <small ng-show="paymentDetailForm.transactionAmount.$error.minlength">Min length is 1.</small>
+                <small ng-show="paymentDetailForm.transactionAmount.$error.maxlength">Max length is 50.</small>
+            </div>
         </div>
 
         <button
+            ng-if="!processing && !processed"
             ng-disabled="paymentDetailForm.$invalid"
             type="submit"
-        >Process Payment</button>
+        >Process payment</button>
+
+        <button
+            ng-if="processing && !processed"
+            ng-click="paymentCancel()"
+            id="cancel-payment"
+        >Cancel payment</button>
+
+        <button
+            ng-if="!processing && processed"
+            ng-click="clearForm()"
+            id="new-payment"
+        >New payment</button>
 
     </form>
 
