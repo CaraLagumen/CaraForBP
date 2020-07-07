@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API.Migrations
 {
     [DbContext(typeof(PaymentDetailContext))]
-    [Migration("20200706000448_InitialCreate")]
+    [Migration("20200707012443_InitialCreate")]
     partial class InitialCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,9 +51,21 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(5)");
 
+                    b.Property<string>("ProcessedAmount")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("ProcessorResponse")
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("RequestedAmount")
+                        .HasColumnType("varchar(50)");
+
                     b.Property<string>("TransactionAmount")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("varchar(10)");
 
                     b.HasKey("PMId");
 

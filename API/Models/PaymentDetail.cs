@@ -53,5 +53,17 @@ namespace API.Models
         [RegularExpression(@"([0-9]+)\.?[0-9][0-9]",
          ErrorMessage = "Only numbers are allowed.")]
         public string TransactionAmount { get; set; }
+
+        [Column(TypeName = "nvarchar(20)")]
+        public string ProcessorResponse { get; set; }
+
+        [Column(TypeName = "varchar(50)")]
+        public string RequestedAmount { get; set; }
+
+        [Column(TypeName = "varchar(50)")]
+        public string ProcessedAmount { get; set; }
+
+        [Column(TypeName = "varchar(10)")]
+        public string Type { get; set; }
     }
 }

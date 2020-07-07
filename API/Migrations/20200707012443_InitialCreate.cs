@@ -18,7 +18,11 @@ namespace API.Migrations
                     CardNumber = table.Column<string>(type: "varchar(16)", nullable: false),
                     ExpirationDate = table.Column<string>(type: "varchar(5)", nullable: false),
                     CVV = table.Column<string>(type: "varchar(4)", nullable: false),
-                    TransactionAmount = table.Column<string>(type: "varchar(50)", nullable: false)
+                    TransactionAmount = table.Column<string>(type: "varchar(50)", nullable: false),
+                    ProcessorResponse = table.Column<string>(type: "nvarchar(20)", nullable: true),
+                    RequestedAmount = table.Column<string>(type: "varchar(50)", nullable: true),
+                    ProcessedAmount = table.Column<string>(type: "varchar(50)", nullable: true),
+                    Type = table.Column<string>(type: "varchar(10)", nullable: true)
                 },
                 constraints: table =>
                 {

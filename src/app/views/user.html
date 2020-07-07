@@ -20,6 +20,7 @@
             <span>Card owner name</span>
             <input
                 ng-model="cardOwnerName"
+                ng-disabled="processing || processed"
                 ng-required="true"
                 ng-maxlength="50"
                 name-validator
@@ -43,6 +44,7 @@
             <span>Card owner street address</span>
             <input
                 ng-model="cardOwnerStreet"
+                ng-disabled="processing || processed"
                 ng-required="true"
                 ng-maxlength="100"
                 street-validator
@@ -69,6 +71,7 @@
                 <span>Card owner zip code</span>
                 <input
                     ng-model="cardOwnerZip1"
+                    ng-disabled="processing || processed"
                     ng-required="true"
                     ng-minlength="5"
                     ng-maxlength="5"
@@ -89,6 +92,7 @@
             <div class="field-item">
                 <input
                     ng-model="cardOwnerZip2"
+                    ng-disabled="processing || processed"
                     ng-minlength="4"
                     ng-maxlength="4"
                     only-digits
@@ -110,6 +114,7 @@
             <span>Card number</span>
             <input
                 ng-model="cardNumber"
+                ng-disabled="processing || processed"
                 ng-required="true"
                 ng-minlength="13"
                 ng-maxlength="16"
@@ -136,9 +141,11 @@
                 <span>Expiration date</span>
                 <input
                     ng-model="expirationDateMonth"
+                    ng-disabled="processing || processed"
                     ng-required="true"
                     ng-minlength="2"
                     ng-maxlength="2"
+                    ng-change="dateValidator()"
                     only-digits
                     name="expirationDateMonth"
                     type="text"
@@ -150,12 +157,14 @@
                 >
                     <small ng-show="paymentDetailForm.expirationDateMonth.$error.minlength">Min length is 2.</small>
                     <small ng-show="paymentDetailForm.expirationDateMonth.$error.maxlength">Max length is 2.</small>
+                    <small ng-if="!isValidDate">Please enter a valid date.</small>
                 </div>
             </div>
             <span class="field-divider">/</span>
             <div class="field-item">
                 <input
                     ng-model="expirationDateYear"
+                    ng-disabled="processing || processed"
                     ng-required="true"
                     ng-minlength="2"
                     ng-maxlength="2"
@@ -180,6 +189,7 @@
             <span>CVV</span>
             <input
                 ng-model="cvv"
+                ng-disabled="processing || processed"
                 ng-required="true"
                 ng-minlength="3"
                 ng-maxlength="4"
@@ -200,14 +210,15 @@
         <div class="field">
             <span>Transaction amount</span>
             <div id="field-transaction">
-                <span id="dollar-sign">$</span>
+                <span class="dollar-sign">$</span>
                 <input
                     ng-model="transactionAmount"
+                    ng-disabled="processing || processed"
                     ng-required="true"
                     ng-minlength="1"
                     ng-maxlength="50"
                     only-digits
-                    id="dollar-input"
+                    class="dollar-input"
                     name="transactionAmount"
                     type="text"
                     placeholder="Transaction amount"

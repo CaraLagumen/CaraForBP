@@ -79,9 +79,31 @@ namespace API.Controllers
         [HttpPost]
         public async Task<ActionResult<PaymentDetail>> PostPaymentDetail(PaymentDetail paymentDetail)
         {
-            if (!ValidateLuhn(paymentDetail.CardNumber))
+            paymentDetail.ProcessorResponse = "Approved";
+            paymentDetail.RequestedAmount = paymentDetail.TransactionAmount;
+            paymentDetail.ProcessedAmount = paymentDetail.TransactionAmount;
+
+            if (paymentDetail.Type == "User")
             {
-                throw new ArgumentException($"Card number is invalid.");
+                if (!ValidateLuhn(paymentDetail.CardNumber))
+                {
+                    throw new ArgumentException($"Card number is invalid.");
+                }
+            }
+
+            if (paymentDetail.Type == "Integrator")
+            {
+                if (ValidateName(paymentDetail.CardOwnerName) ||
+                ValidateAmountOver(paymentDetail.TransactionAmount))
+                {
+                    paymentDetail.ProcessorResponse = "Declined";
+                    paymentDetail.ProcessedAmount = "0.00";
+                }
+                else if (ValidateAmountBetween(paymentDetail.TransactionAmount))
+                {
+                    paymentDetail.ProcessorResponse = "Partially approved";
+                    paymentDetail.ProcessedAmount = "5.00";
+                }
             }
 
             _context.PaymentDetails.Add(paymentDetail);
@@ -122,6 +144,24 @@ namespace API.Controllers
                     ? thisNum
                     : ((thisNum *= 2) > 9 ? thisNum - 9 : thisNum)
                 ).Sum() % 10 == 0;
+        }
+
+        //Card owner name must start with A or a
+        private static bool ValidateName(string name)
+        {
+            return name[0] == 'a' || name[0] == 'A';
+        }
+
+        //Transaction amount > 10
+        private static bool ValidateAmountOver(string amount)
+        {
+            return decimal.Parse(amount) > 10;
+        }
+
+        //Transaction amount > 5 && amount < 10
+        private static bool ValidateAmountBetween(string amount)
+        {
+            return decimal.Parse(amount) > 5 && decimal.Parse(amount) < 10;
         }
 
     }

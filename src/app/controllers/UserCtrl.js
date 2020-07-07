@@ -5,20 +5,20 @@ app.controller("UserCtrl", [
     $scope.isValidDate = false;
     $scope.processed = false;
     $scope.processing = false;
-    $scope.response = "Successful";
-    $scope.requestedTransactionAmount = "$1234";
-    $scope.processedTransactionAmount = "$1234";
+    $scope.response = "";
+    $scope.requestedTransactionAmount = "";
+    $scope.processedTransactionAmount = "";
 
     //TEST
-    // $scope.cardOwnerName = "Cara Lagumen";
-    // $scope.cardOwnerStreet = "1234 Street Address";
-    // $scope.cardOwnerZip1 = "12345";
-    // $scope.cardOwnerZip2 = "6789";
-    // $scope.cardNumber = "4111111111111111";
-    // $scope.expirationDateMonth = "12";
-    // $scope.expirationDateYear = "34";
-    // $scope.cvv = "1234";
-    // $scope.transactionAmount = "1234.56";
+    $scope.cardOwnerName = "Cara Lagumen";
+    $scope.cardOwnerStreet = "1234 Street Address";
+    $scope.cardOwnerZip1 = "12345";
+    $scope.cardOwnerZip2 = "6789";
+    $scope.cardNumber = "4111111111111111";
+    $scope.expirationDateMonth = "12";
+    $scope.expirationDateYear = "34";
+    $scope.cvv = "1234";
+    $scope.transactionAmount = "1234.56";
 
     $scope.dateValidator = function () {
       if ($scope.expirationDateMonth && $scope.expirationDateYear) {
@@ -29,9 +29,24 @@ app.controller("UserCtrl", [
 
         if (inputDate >= now) {
           $scope.isValidDate = true;
+
+
+          $scope.paymentDetailForm.expirationDateMonth.$setValidity(
+            "required",
+            true
+          );
+          $scope.paymentDetailForm.expirationDateYear.$setValidity(
+            "required",
+            true
+          );
         } else {
           $scope.isValidDate = false;
 
+
+          $scope.paymentDetailForm.expirationDateMonth.$setValidity(
+            "required",
+            false
+          );
           $scope.paymentDetailForm.expirationDateYear.$setValidity(
             "required",
             false
@@ -78,15 +93,16 @@ app.controller("UserCtrl", [
           $scope.expirationDateMonth + "/" + $scope.expirationDateYear,
         CVV: $scope.cvv,
         TransactionAmount: transactionAmount,
+        Type: "User",
       };
 
       UserService.paymentProcess(payment).then(
         function success(res) {
           $scope.processed = true;
           $scope.processing = false;
-          $scope.response = "Successful";
-          $scope.requestedTransactionAmount = "$" + transactionAmount;
-          $scope.processedTransactionAmount = "$" + transactionAmount;
+          $scope.response = res.data.ProcessorResponse;
+          $scope.requestedTransactionAmount = "$" + res.data.RequestedAmount;
+          $scope.processedTransactionAmount = "$" + res.data.ProcessedAmount;
 
           console.log(res);
         },

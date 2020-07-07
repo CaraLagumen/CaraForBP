@@ -2,19 +2,12 @@ app.factory("IntegratorService", [
   "$http",
   "apiUrl",
   function ($http, apiUrl) {
-    const transaction = {};
+    let output = {};
 
-    transaction.TransactionProcess = function (transaction) {
-      $http
-        .post(apiUrl + "TransactionDetail", transaction)
-        .success(function (data) {
-          callback(data);
-        })
-        .error(function (err) {
-          errorCallback(err);
-        });
+    output.transactionProcess = function (payment) {
+      return $http.post(apiUrl + "PaymentDetail", payment);
     };
 
-    return transaction;
+    return output;
   },
 ]);

@@ -1,1 +1,169 @@
-<h1>Integrator</h1>
+<div id="integrator">
+
+    <h2 ng-if="!processing && !processed">Send your transaction.</h2>
+
+    <h2 ng-if="processing && !processed">Processing your transaction.</h2>
+
+    <div ng-if="!processing && processed">
+        <h2>{{ response }} transaction.</h2>
+        <span class="transaction-response">Amount requested: {{ requestedTransactionAmount }}</span>
+        <span class="transaction-response">Amount processed: {{ processedTransactionAmount }}</span>
+    </div>
+
+    <form
+        ng-submit="transactionProcess()"
+        name="transactionDetailForm"
+        id="transaction-detail-form"
+    >
+
+        <div class="field">
+            <span>Card owner name</span>
+            <input
+                ng-model="cardOwnerName"
+                ng-disabled="processing || processed"
+                ng-required="true"
+                ng-maxlength="50"
+                name="cardOwnerName"
+                type="text"
+                placeholder="Name on card"
+            >
+        </div>
+
+        <div class="field">
+            <span>Billing address</span>
+            <input
+                ng-model="cardOwnerStreet"
+                ng-disabled="processing || processed"
+                ng-required="true"
+                ng-maxlength="100"
+                name="cardOwnerStreet"
+                type="text"
+                placeholder="Street address"
+            >
+        </div>
+
+        <div class="field">
+            <div class="field-item">
+                <span>Billing zip code</span>
+                <input
+                    ng-model="cardOwnerZip1"
+                    ng-disabled="processing || processed"
+                    ng-required="true"
+                    ng-minlength="5"
+                    ng-maxlength="5"
+                    only-digits
+                    name="cardOwnerZip1"
+                    type="text"
+                    placeholder="Zip code"
+                >
+            </div>
+            <span class="field-divider">-</span>
+            <div class="field-item">
+                <input
+                    ng-model="cardOwnerZip2"
+                    ng-disabled="processing || processed"
+                    ng-minlength="4"
+                    ng-maxlength="4"
+                    only-digits
+                    name="cardOwnerZip2"
+                    type="text"
+                    placeholder="Zip code extension"
+                >
+            </div>
+        </div>
+
+        <div class="field">
+            <span>Card number</span>
+            <input
+                ng-model="cardNumber"
+                ng-disabled="processing || processed"
+                ng-required="true"
+                ng-minlength="13"
+                ng-maxlength="16"
+                only-digits
+                name="cardNumber"
+                type="text"
+                placeholder="13 to 16 digit card number"
+            >
+        </div>
+
+        <div class="field">
+            <div class="field-item">
+                <span>Expiration date</span>
+                <input
+                    ng-model="expirationDateMonth"
+                    ng-disabled="processing || processed"
+                    ng-required="true"
+                    ng-minlength="2"
+                    ng-maxlength="2"
+                    only-digits
+                    name="expirationDateMonth"
+                    type="text"
+                    placeholder="MM"
+                >
+            </div>
+            <span class="field-divider">/</span>
+            <div class="field-item">
+                <input
+                    ng-model="expirationDateYear"
+                    ng-disabled="processing || processed"
+                    ng-required="true"
+                    ng-minlength="2"
+                    ng-maxlength="2"
+                    only-digits
+                    name="expirationDateYear"
+                    type="text"
+                    placeholder="YY"
+                >
+            </div>
+        </div>
+
+        <div class="field">
+            <span>CVV</span>
+            <input
+                ng-model="cvv"
+                ng-disabled="processing || processed"
+                ng-required="true"
+                ng-minlength="3"
+                ng-maxlength="4"
+                only-digits
+                name="cvv"
+                type="password"
+                placeholder="CVV"
+            >
+        </div>
+
+        <div class="field">
+            <span>Transaction amount</span>
+            <div id="field-transaction">
+                <span class="dollar-sign">$</span>
+                <input
+                    ng-model="transactionAmount"
+                    ng-disabled="processing || processed"
+                    ng-required="true"
+                    ng-minlength="1"
+                    ng-maxlength="50"
+                    only-digits
+                    class="dollar-input"
+                    name="transactionAmount"
+                    type="text"
+                    placeholder="Transaction amount"
+                >
+            </div>
+        </div>
+
+        <button
+            ng-if="!processed"
+            ng-disabled="transactionDetailForm.$invalid || processing"
+            type="submit"
+        >Process transaction</button>
+
+        <button
+            ng-if="processed"
+            ng-click="clearForm()"
+            id="new-transaction"
+        >New transaction</button>
+
+    </form>
+
+</div>

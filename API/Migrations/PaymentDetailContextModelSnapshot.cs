@@ -49,9 +49,21 @@ namespace API.Migrations
                         .IsRequired()
                         .HasColumnType("varchar(5)");
 
+                    b.Property<string>("ProcessedAmount")
+                        .HasColumnType("varchar(50)");
+
+                    b.Property<string>("ProcessorResponse")
+                        .HasColumnType("nvarchar(20)");
+
+                    b.Property<string>("RequestedAmount")
+                        .HasColumnType("varchar(50)");
+
                     b.Property<string>("TransactionAmount")
                         .IsRequired()
                         .HasColumnType("varchar(50)");
+
+                    b.Property<string>("Type")
+                        .HasColumnType("varchar(10)");
 
                     b.HasKey("PMId");
 
