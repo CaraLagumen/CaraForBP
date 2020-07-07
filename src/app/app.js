@@ -17,4 +17,4 @@ app.config(($routeProvider) => {
     .otherwise({ redirectTo: "/" });
 });
 
-app.value("apiUrl", "http://localhost:58905/api/");
+app.value("apiUrl", "http://localhost:5000/api/");
